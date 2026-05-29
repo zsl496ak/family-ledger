@@ -1,4 +1,3 @@
-from decimal import Decimal
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
@@ -17,7 +16,7 @@ def list_accounts(current_user: User = Depends(get_current_user), db: Session = 
     result = []
     for acc in accounts:
         out = AccountOut.model_validate(acc)
-        out.balance = account_service.compute_balance(db, acc)
+        out.balance = float(account_service.compute_balance(db, acc))
         result.append(out)
     return result
 
@@ -26,7 +25,7 @@ def list_accounts(current_user: User = Depends(get_current_user), db: Session = 
 def create_account(req: AccountCreate, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
     account = account_service.create_account(db, current_user.family_id, req.model_dump())
     out = AccountOut.model_validate(account)
-    out.balance = account.initial_balance
+    out.balance = float(account.initial_balance)
     return out
 
 
@@ -36,7 +35,7 @@ def get_account(account_id: int, current_user: User = Depends(get_current_user),
     if not account:
         raise HTTPException(status_code=404, detail="账户不存在")
     out = AccountOut.model_validate(account)
-    out.balance = account_service.compute_balance(db, account)
+    out.balance = float(account_service.compute_balance(db, account))
     return out
 
 
@@ -47,7 +46,7 @@ def update_account(account_id: int, req: AccountUpdate, current_user: User = Dep
         raise HTTPException(status_code=404, detail="账户不存在")
     account = account_service.update_account(db, account, req.model_dump(exclude_unset=True))
     out = AccountOut.model_validate(account)
-    out.balance = account_service.compute_balance(db, account)
+    out.balance = float(account_service.compute_balance(db, account))
     return out
 
 

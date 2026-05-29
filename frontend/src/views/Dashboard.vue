@@ -113,7 +113,7 @@ const showAddDialog = ref(false)
 const typeMap: Record<string, string> = { income: '收入', expense: '支出', transfer: '转账' }
 
 function formatMoney(v: number) {
-  return '¥' + (v || 0).toFixed(2)
+  return '¥' + Number(v || 0).toFixed(2)
 }
 
 const trendOption = computed(() => ({

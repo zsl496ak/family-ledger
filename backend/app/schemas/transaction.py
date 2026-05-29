@@ -29,7 +29,7 @@ class TransactionOut(BaseModel):
     account_id: int
     category_id: int | None
     transaction_type: str
-    amount: Decimal
+    amount: float
     note: str | None
     transaction_date: date
     creator_id: int
@@ -56,7 +56,7 @@ class TransactionFilter(BaseModel):
 
 
 class TransactionSummary(BaseModel):
-    total_income: Decimal
-    total_expense: Decimal
-    net_amount: Decimal
+    total_income: float
+    total_expense: float
+    net_amount: float
     count: int

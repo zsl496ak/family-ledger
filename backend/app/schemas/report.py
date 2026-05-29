@@ -1,13 +1,12 @@
-from decimal import Decimal
 from pydantic import BaseModel
 
 
 class MonthlySummary(BaseModel):
     year: int
     month: int
-    total_income: Decimal
-    total_expense: Decimal
-    net_amount: Decimal
+    total_income: float
+    total_expense: float
+    net_amount: float
     transaction_count: int
 
 
@@ -15,7 +14,7 @@ class CategoryBreakdown(BaseModel):
     category_id: int
     category_name: str
     category_type: str
-    amount: Decimal
+    amount: float
     percentage: float
     icon: str | None
     color: str | None
@@ -23,14 +22,14 @@ class CategoryBreakdown(BaseModel):
 
 class TrendData(BaseModel):
     month: str
-    income: Decimal
-    expense: Decimal
+    income: float
+    expense: float
 
 
 class AccountBalance(BaseModel):
     account_id: int
     account_name: str
     account_type: str
-    balance: Decimal
+    balance: float
     icon: str | None
     color: str | None

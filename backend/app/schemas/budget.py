@@ -19,9 +19,9 @@ class BudgetOut(BaseModel):
     category_id: int
     year: int
     month: int
-    amount: Decimal
-    spent: Decimal | None = None
-    remaining: Decimal | None = None
+    amount: float
+    spent: float | None = None
+    remaining: float | None = None
     percentage: float | None = None
     category_name: str | None = None
 

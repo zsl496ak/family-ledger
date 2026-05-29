@@ -16,19 +16,19 @@
           <el-col :span="8">
             <div class="overview-item">
               <div class="overview-label">总预算</div>
-              <div class="overview-value">¥{{ overview.total_budget?.toFixed(2) }}</div>
+              <div class="overview-value">¥{{ Number(overview.total_budget || 0).toFixed(2) }}</div>
             </div>
           </el-col>
           <el-col :span="8">
             <div class="overview-item">
               <div class="overview-label">已支出</div>
-              <div class="overview-value" style="color: #F56C6C">¥{{ overview.total_spent?.toFixed(2) }}</div>
+              <div class="overview-value" style="color: #F56C6C">¥{{ Number(overview.total_spent || 0).toFixed(2) }}</div>
             </div>
           </el-col>
           <el-col :span="8">
             <div class="overview-item">
               <div class="overview-label">剩余</div>
-              <div class="overview-value" :style="{ color: (overview.total_remaining || 0) >= 0 ? '#67C23A' : '#F56C6C' }">¥{{ overview.total_remaining?.toFixed(2) }}</div>
+              <div class="overview-value" :style="{ color: Number(overview.total_remaining || 0) >= 0 ? '#67C23A' : '#F56C6C' }">¥{{ Number(overview.total_remaining || 0).toFixed(2) }}</div>
             </div>
           </el-col>
         </el-row>
@@ -38,7 +38,7 @@
         <div class="budget-header">
           <span class="budget-category">{{ budget.category_name }}</span>
           <div class="budget-amounts">
-            <span>¥{{ budget.spent?.toFixed(2) }} / ¥{{ budget.amount?.toFixed(2) }}</span>
+            <span>¥{{ Number(budget.spent || 0).toFixed(2) }} / ¥{{ Number(budget.amount || 0).toFixed(2) }}</span>
             <el-button text type="primary" size="small" @click="openForm(budget)">编辑</el-button>
             <el-popconfirm title="确定删除?" @confirm="handleDelete(budget.id)">
               <template #reference>

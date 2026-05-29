@@ -62,9 +62,9 @@ const categoryData = ref<any[]>([])
 const accountData = ref<any[]>([])
 
 const summaryCards = computed(() => ({
-  income: { label: '收入', value: `¥${monthlyData.value.total_income?.toFixed(2) || '0.00'}`, color: '#67C23A' },
-  expense: { label: '支出', value: `¥${monthlyData.value.total_expense?.toFixed(2) || '0.00'}`, color: '#F56C6C' },
-  net: { label: '结余', value: `¥${monthlyData.value.net_amount?.toFixed(2) || '0.00'}`, color: '#409EFF' },
+  income: { label: '收入', value: `¥${Number(monthlyData.value.total_income || 0).toFixed(2)}`, color: '#67C23A' },
+  expense: { label: '支出', value: `¥${Number(monthlyData.value.total_expense || 0).toFixed(2)}`, color: '#F56C6C' },
+  net: { label: '结余', value: `¥${Number(monthlyData.value.net_amount || 0).toFixed(2)}`, color: '#409EFF' },
   count: { label: '笔数', value: monthlyData.value.transaction_count || 0, color: '#E6A23C' },
 }))
 

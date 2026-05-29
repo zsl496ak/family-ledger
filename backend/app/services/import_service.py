@@ -105,7 +105,7 @@ def _parse_xlsx(content: bytes) -> list[dict]:
     if not rows:
         return []
 
-    headers = [str(h).strip() if h else "" for h in rows[0]]
+    headers = [str(h).strip().rstrip("*").strip() if h else "" for h in rows[0]]
     result = []
     for row in rows[1:]:
         if not any(row):
@@ -113,7 +113,14 @@ def _parse_xlsx(content: bytes) -> list[dict]:
         d = {}
         for j, val in enumerate(row):
             if j < len(headers) and headers[j]:
-                d[headers[j]] = str(val) if val is not None else ""
+                if isinstance(val, datetime):
+                    d[headers[j]] = val.strftime("%Y-%m-%d")
+                elif isinstance(val, date):
+                    d[headers[j]] = val.isoformat()
+                elif val is not None:
+                    d[headers[j]] = str(val)
+                else:
+                    d[headers[j]] = ""
         result.append(d)
     wb.close()
     return result
@@ -122,14 +129,25 @@ def _parse_xlsx(content: bytes) -> list[dict]:
 def _parse_csv(content: bytes) -> list[dict]:
     text = content.decode("utf-8-sig")
     reader = csv.DictReader(io.StringIO(text))
-    return [row for row in reader]
+    rows = []
+    for row in reader:
+        rows.append({k.strip().rstrip("*").strip() if k else "": v for k, v in row.items()})
+    return rows
 
 
 def _parse_date(s: str) -> date:
     s = s.strip()
-    for fmt in ("%Y-%m-%d", "%Y/%m/%d", "%Y年%m月%d日"):
+    if not s:
+        raise ValueError("日期不能为空")
+    for fmt in ("%Y-%m-%d", "%Y/%m/%d", "%Y年%m月%d日", "%Y.%m.%d", "%d/%m/%Y", "%m/%d/%Y"):
         try:
             return datetime.strptime(s, fmt).date()
         except ValueError:
             continue
+    try:
+        num = float(s)
+        if num > 30000 and num < 100000:
+            return date(1899, 12, 30) + __import__("datetime").timedelta(days=int(num))
+    except ValueError:
+        pass
     raise ValueError(f"无法解析日期: {s}")

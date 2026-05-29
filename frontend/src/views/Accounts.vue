@@ -17,8 +17,8 @@
             <div class="account-info">
               <div class="account-name">{{ acc.name }}</div>
               <div class="account-type">{{ typeMap[acc.account_type] }}</div>
-              <div class="account-balance" :style="{ color: (acc.balance || 0) >= 0 ? '#303133' : '#F56C6C' }">
-                ¥{{ (acc.balance || 0).toFixed(2) }}
+              <div class="account-balance" :style="{ color: Number(acc.balance || 0) >= 0 ? '#303133' : '#F56C6C' }">
+                ¥{{ Number(acc.balance || 0).toFixed(2) }}
               </div>
             </div>
             <div class="account-actions">

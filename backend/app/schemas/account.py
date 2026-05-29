@@ -28,10 +28,10 @@ class AccountOut(BaseModel):
     account_type: str
     icon: str | None
     color: str | None
-    initial_balance: Decimal
+    initial_balance: float
     is_active: bool
     sort_order: int
     created_at: datetime
-    balance: Decimal | None = None
+    balance: float | None = None
 
     model_config = {"from_attributes": True}
