@@ -13,7 +13,7 @@ services:
     restart: unless-stopped
 
   nginx:
-    image: nginx:alpine
+    image: swr.cn-north-4.myhuaweicloud.com/ddn-k8s/docker.io/library/nginx:alpine
     ports:
       - "80:80"
     volumes:
